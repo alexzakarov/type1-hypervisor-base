@@ -217,6 +217,7 @@ Typical next steps to turn this base into a real Type 1 hypervisor:
 
 ## License
 
-No license file is currently present in the repository. `src/multiboot.h` is taken
-from the GRUB Multiboot documentation and is distributed under the GNU GPL v2
-(see its header).
+This project is licensed under the **GNU General Public License v2** — see
+[LICENSE](./LICENSE) for the full text. `src/multiboot.h` is taken from the GRUB
+Multiboot documentation and is likewise distributed under the GNU GPL v2 (see the
+copyright header inside that file).

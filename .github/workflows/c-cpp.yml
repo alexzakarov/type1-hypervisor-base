@@ -13,5 +13,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: make
+
+    - name: Install build dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential nasm binutils grub2-common xorriso mtools qemu-system-x86
+
+    - name: Build
       run: make
+
+    - name: Upload ISO artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Hypervisor.iso
+        path: Hypervisor.iso
