@@ -9,14 +9,14 @@ all: kernel iso clean
 
 clean:
 	rm -f *.o
-	rm -f *.iso
 	rm -rf ./obj
 
 kernel:
 	mkdir -p obj
 	$(nasm) $(scrDir)/bootloader.asm -o ./obj/bootloader.o
+	$(nasm) $(scrDir)/kernelloader.asm -o ./obj/kernelloader.o
 	$(gcc) -c $(scrDir)/kernel.cpp -o ./obj/kernel.o
-	$(ld) -T  ./linker.ld -o ./obj/kernel.bin ./obj/bootloader.o ./obj/kernel.o
+	$(ld) -T  ./linker.ld -o ./obj/kernel.bin ./obj/bootloader.o ./obj/kernelloader.o ./obj/kernel.o
 
 
 iso:
