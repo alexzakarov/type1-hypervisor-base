@@ -20,9 +20,9 @@ extern "C" void kmain(multiboot_header* mb)
 {
     if (mb->magic)
     {
-        print("Multiboot detected !\n");
+        print("Multiboot detected ! Test Pipeline\n");
     } else
     {
-        print("Multiboot not detected !\n");
+        print("Multiboot not detected ! Test Pipeline\n");
     }
 }
