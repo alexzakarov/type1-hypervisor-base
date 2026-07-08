@@ -8,8 +8,8 @@ on:
   workflow_dispatch:
     inputs:
       tag_name:
-        description: 'Release tag (e.g. v0.02)'
-        required: true
+        description: 'Release tag (e.g. v0.02). Leave empty to auto-generate.'
+        required: false
         type: string
 
 jobs:
@@ -35,10 +35,22 @@ jobs:
 
   release:
     needs: build
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
+
+    - name: Determine tag name
+      id: tag
+      run: |
+        if [ -n "${{ inputs.tag_name }}" ]; then
+          echo "name=${{ inputs.tag_name }}" >> $GITHUB_OUTPUT
+          echo "prerelease=false" >> $GITHUB_OUTPUT
+        else
+          echo "name=v0.0.${{ github.run_number }}" >> $GITHUB_OUTPUT
+          echo "prerelease=true" >> $GITHUB_OUTPUT
+        fi
 
     - name: Download ISO artifact
       uses: actions/download-artifact@v4
@@ -48,7 +60,8 @@ jobs:
     - name: Create release
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ inputs.tag_name }}
-        name: ${{ inputs.tag_name }}
+        tag_name: ${{ steps.tag.outputs.name }}
+        name: ${{ steps.tag.outputs.name }}
         generate_release_notes: true
+        prerelease: ${{ steps.tag.outputs.prerelease }}
         files: Hypervisor.iso
