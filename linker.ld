@@ -1,17 +1,13 @@
 ENTRY(_start)
 SECTIONS
 {
-    . = 0x00100000;
+    . = 0x100000; /* 1MB Başlangıç */
 
-    .boot : {
-        KEEP(*(.multiboot_header))
-    }
+    .text : { *(.multiboot_header) *(.text) }
+    .rodata : { *(.rodata) }
+    .data : { *(.data) }
+    .bss : { *(.bss) }
 
-
-    .text : {
-        *(.text)
-    }
-
-
-    _kernel_end = .;
+    . = ALIGN(4096);
+    end = .; /* Kernel kodlarının bittiği tam adres sembolü */
 }
